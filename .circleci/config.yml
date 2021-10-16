@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  run-tests:
+  build-image:
     docker:
       - image: cimg/node:16.11.1
         auth:
@@ -10,13 +10,28 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          docker_layer_caching: false
+          docker_layer_caching: true
           version: 19.03.13
       - run:
           name: "build docker image"
           command: "docker build -f Dockerfile.dev -t dannyoka/docker-react ."
+  run-tests:
+    docker:
+      - image: cimg/node:16.11.1
+        auth:
+          username: dannyoka
+          password: $$DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 19.03.13
+      - run:
+          name: "run tests"
+          command: "docker run -e CI=true dannyoka/docker-react npm run test"
 
 workflows:
   test-workflow:
     jobs:
+      - build-image
       - run-tests
