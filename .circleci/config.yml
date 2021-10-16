@@ -4,11 +4,14 @@ jobs:
   run-tests:
     docker:
       - image: cimg/node:14
+        auth:
+          username: dannyoka
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run:
           name: "build docker image"
-          command: "echo Hello world!!"
+          command: "echo Hello world!"
 
 workflows:
   test-workflow:
