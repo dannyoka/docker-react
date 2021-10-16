@@ -9,6 +9,9 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+          version: 19.03.13
       - run:
           name: "build docker image"
           command: "docker build -f Dockerfile.dev -t dannyoka/docker-react ."
