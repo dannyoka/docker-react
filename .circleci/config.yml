@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  run-tests:
+    docker:
+      - image: cimg/node:14
+    steps:
+      - checkout
+      - run:
+          name: "build docker image"
+          command: "docker build -t dannyoka/docker-react -f Dockerfile.dev ."
+
+workflows:
+  test-workflow:
+    jobs:
+      - run-tests
