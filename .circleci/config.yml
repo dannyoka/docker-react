@@ -34,4 +34,6 @@ workflows:
   test-workflow:
     jobs:
       - build-image
-      - run-tests
+      - run-tests:
+          requires:
+            - build-image
