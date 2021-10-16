@@ -20,7 +20,7 @@ jobs:
       - image: cimg/node:16.11.1
         auth:
           username: dannyoka
-          password: $$DOCKERHUB_PASSWORD
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - setup_remote_docker:
