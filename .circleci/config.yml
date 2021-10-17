@@ -1,16 +1,36 @@
 version: 2.1
-
+orbs:
+  eb: circleci/aws-elastic-beanstalk@1.0.0
 jobs:
-  run-tests:
+  build-image:
     docker:
-      - image: cimg/node:14
+      - image: cimg/node:16.11.1
+        auth:
+          username: dannyoka
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+          version: 19.03.13
       - run:
           name: "build docker image"
-          command: "echo Hello world!"
+          command: "docker build -f Dockerfile.dev -t dannyoka/docker-react ."
+      - run:
+          name: "run tests"
+          command: "docker run -e CI=true dannyoka/docker-react npm run test"
 
 workflows:
   test-workflow:
     jobs:
-      - run-tests
+      - build-image
+      # - eb/deploy
+      #     context: aws-creds
+      #     environment-name: docker-react
+      #     filters:
+      #       branches:
+      #         only:
+      #           -master
+      #         label: version-<<pipeline.number>>
+      #         requires:
+      #           - build-image
