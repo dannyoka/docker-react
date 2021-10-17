@@ -24,13 +24,13 @@ workflows:
   test-workflow:
     jobs:
       - build-image
-      - eb/deploy
-          context: aws-creds
-          environment-name: docker-react
-          filters:
-            branches:
-              only:
-                -master
-              label: version-<<pipeline.number>>
-              requires:
-                - build-image
+      # - eb/deploy
+      #     context: aws-creds
+      #     environment-name: docker-react
+      #     filters:
+      #       branches:
+      #         only:
+      #           -master
+      #         label: version-<<pipeline.number>>
+      #         requires:
+      #           - build-image
