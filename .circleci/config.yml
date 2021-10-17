@@ -13,11 +13,8 @@ jobs:
           docker_layer_caching: false
           version: 19.03.13
       - run:
-          name: "build docker image"
-          command: "docker build -f Dockerfile.dev -t dannyoka/docker-react ."
-      - run:
-          name: "push docker image"
-          command: "docker push dannyoka/docker-react"
+          name: "build & push docker image"
+          command: "docker build -f Dockerfile.dev -t dannyoka/docker-react . && docker push dannyoka/docker-react"
   run-tests:
     docker:
       - image: cimg/node:16.11.1
